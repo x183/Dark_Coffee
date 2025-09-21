@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     public float moveSpeed;
+    public float friction;
 	private Rigidbody2D body;
     void Start()
     {
@@ -13,22 +14,22 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
 			Vector2 movement = new Vector2(0,0);
-        if(Input.GetKeyDown (KeyCode.W))
+        if(Input.GetKey (KeyCode.W))
         {
             movement += new Vector2(0, 1);
         }
-		if(Input.GetKeyDown (KeyCode.S))
+		if(Input.GetKey (KeyCode.S))
         {
             movement += new Vector2(0, -1);
         }
-        if(Input.GetKeyDown (KeyCode.D))
+        if(Input.GetKey (KeyCode.D))
         {
                 movement += new Vector2(1, 0);
         }
-        if(Input.GetKeyDown (KeyCode.A))
+        if(Input.GetKey (KeyCode.A))
         {
                 movement += new Vector2(-1, 0);
         }
-		  body.AddForce((movement.normalized) * moveSpeed);
+        body.linearVelocity = Vector2.Lerp(body.linearVelocity, movement.normalized*moveSpeed,friction* Time.fixedDeltaTime);
     }
 }
